@@ -5,7 +5,8 @@
   "type": "module",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
-    "start": "node src/start.js"
+    "start": "node src/start.js",
+    "up": "node src/up.js"
   },
   "repository": {
     "type": "git",
