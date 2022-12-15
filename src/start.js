@@ -1,44 +1,38 @@
 import * as readline from 'node:readline/promises';
 import { stdin as input, stdout as output } from 'node:process';
-// import { getUserHomeDir, getUsername } from './utils';
 import os from 'node:os';
 import { up } from './up.js';
+import { cd } from './cd.js';
 
 const getUsername = () => {
-    let username = '';
     const myArgs = Object.values(process.argv).slice(2);
     const usernameFromInput = myArgs.toString().split('=').pop();
-    username = usernameFromInput ? usernameFromInput : 'Anonimus';
-    return username;
+    return usernameFromInput ? usernameFromInput : 'Anonimus';
 };
-
-const getUserHomeDir = () => {
-    const userHomeDir = os.homedir();
-    return userHomeDir;
-};
-
 
 const start = async () => {
     const rl = readline.createInterface({ input, output });
 
     const username = getUsername();
-    let currentDir = getUserHomeDir();
+    let currentDir = os.homedir();
 
     rl.write(`Welcome to the File Manager, ${username}!\n`);
     rl.write(`You are currently in ${currentDir}\n`);
 
-    rl.on('line', (line) => {
-        switch (line.trim()) {
+    rl.on('line', async (line) => {
+        const inputPath = line.trim().split(' ')[1];
 
+        switch (line.trim()) {
             case 'up':
-                currentDir = up(currentDir);
+                const newCurrDir = up(currentDir);
+                currentDir = newCurrDir;
                 console.log(`You are currently in ${currentDir}`);
                 break;
 
-            // case 'cd':
-            //     console.log('cd');
-            //     console.log(`You are currently in ${currentDir}`);
-            //     break;
+            case `cd ${inputPath}`:
+                currentDir = await cd(currentDir, inputPath);
+                console.log(`You are currently in ${currentDir}`);
+                break;
 
             case '.exit':
                 rl.close();
