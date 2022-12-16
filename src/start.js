@@ -3,6 +3,7 @@ import { stdin as input, stdout as output } from 'node:process';
 import os from 'node:os';
 import { up } from './up.js';
 import { cd } from './cd.js';
+import { ls } from './ls.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -33,6 +34,12 @@ const start = async () => {
                 currentDir = await cd(currentDir, inputPath);
                 console.log(`You are currently in ${currentDir}`);
                 break;
+
+            case 'ls':
+                await ls(currentDir);
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
 
             case '.exit':
                 rl.close();
