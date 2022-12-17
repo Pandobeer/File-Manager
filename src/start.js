@@ -4,6 +4,7 @@ import os from 'node:os';
 import { up } from './up.js';
 import { cd } from './cd.js';
 import { ls } from './ls.js';
+import { cat } from './cat.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -40,6 +41,10 @@ const start = async () => {
                 console.log(`You are currently in ${currentDir}`);
                 break;
 
+            case `cat ${inputPath}`:
+                await cat(currentDir, inputPath);
+                console.log(`You are currently in ${currentDir}`);
+                break;
 
             case '.exit':
                 rl.close();
