@@ -10,6 +10,7 @@ import { rn } from './rn.js';
 import { rm } from './rm.js';
 import { cp } from './cp.js';
 import { getSystemInfo, getCpuSystemInfo, getHomeDir, getSystemUsername, getArchitecture } from './systemInfo.js';
+import { hash } from './hash.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -101,6 +102,11 @@ const start = async () => {
                         console.log(`Invalid input`);
                         break;
                 }
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
+            case `hash ${inputPath}`:
+                await hash(currentDir, inputPath);
                 console.log(`You are currently in ${currentDir}`);
                 break;
 
