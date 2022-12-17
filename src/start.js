@@ -5,6 +5,8 @@ import { up } from './up.js';
 import { cd } from './cd.js';
 import { ls } from './ls.js';
 import { cat } from './cat.js';
+import { add } from './add.js';
+import { rn } from './rn.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -23,6 +25,8 @@ const start = async () => {
 
     rl.on('line', async (line) => {
         const inputPath = line.trim().split(' ')[1];
+        const inputFileName = line.trim().split(' ')[1];
+        const inputNewFileName = line.trim().split(' ')[2];
 
         switch (line.trim()) {
             case 'up':
@@ -43,6 +47,16 @@ const start = async () => {
 
             case `cat ${inputPath}`:
                 await cat(currentDir, inputPath);
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
+            case `add ${inputFileName}`:
+                await add(currentDir, inputFileName);
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
+            case `rn ${inputPath} ${inputNewFileName}`:
+                await rn(currentDir, inputPath, inputNewFileName);
                 console.log(`You are currently in ${currentDir}`);
                 break;
 
