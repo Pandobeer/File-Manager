@@ -13,6 +13,7 @@ import { getSystemInfo, getCpuSystemInfo, getHomeDir, getSystemUsername, getArch
 import { hash } from './hash.js';
 import { compress } from './compress.js';
 import { decompress } from './decompress.js';
+import { mv } from './mv.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -70,6 +71,11 @@ const start = async () => {
 
             case `cp ${inputPath} ${inputPathDest}`:
                 await cp(currentDir, inputPath, inputPathDest);
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
+            case `mv ${inputPath} ${inputPathDest}`:
+                await mv(currentDir, inputPath, inputPathDest);
                 console.log(`You are currently in ${currentDir}`);
                 break;
 
