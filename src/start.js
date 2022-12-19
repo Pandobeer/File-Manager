@@ -14,6 +14,7 @@ import { hash } from './hash.js';
 import { compress } from './compress.js';
 import { decompress } from './decompress.js';
 import { mv } from './mv.js';
+import { printDirectory } from './utils/helpers.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -31,60 +32,56 @@ const start = async () => {
     rl.write(`You are currently in ${currentDir}\n`);
 
     rl.on('line', async (line) => {
-        const inputPath = line.trim().split(' ')[1];
-        const inputFileName = line.trim().split(' ')[1];
-        const inputNewFileName = line.trim().split(' ')[2];
-        const inputPathDest = line.trim().split(' ')[2];
-        const inputValue = line.trim().split(' ')[1];
+        const [_, arg1, arg2] = line.trim().split(' ');
 
         switch (line.trim()) {
             case 'up':
                 const newCurrDir = up(currentDir);
                 currentDir = newCurrDir;
-                console.log(`You are currently in ${currentDir}`);
+                printDirectory(currentDir);
                 break;
 
-            case `cd ${inputPath}`:
-                currentDir = await cd(currentDir, inputPath);
-                console.log(`You are currently in ${currentDir}`);
+            case `cd ${arg1}`:
+                currentDir = await cd(currentDir, arg1);
+                printDirectory(currentDir);
                 break;
 
             case 'ls':
                 await ls(currentDir);
-                console.log(`You are currently in ${currentDir}`);
+                printDirectory(currentDir);
                 break;
 
-            case `cat ${inputPath}`:
-                await cat(currentDir, inputPath);
-                console.log(`You are currently in ${currentDir}`);
+            case `cat ${arg1}`:
+                await cat(currentDir, arg1);
+                printDirectory(currentDir);
                 break;
 
-            case `add ${inputFileName}`:
-                await add(currentDir, inputFileName);
-                console.log(`You are currently in ${currentDir}`);
+            case `add ${arg1}`:
+                await add(currentDir, arg1);
+                printDirectory(currentDir);
                 break;
 
-            case `rn ${inputPath} ${inputNewFileName}`:
-                await rn(currentDir, inputPath, inputNewFileName);
-                console.log(`You are currently in ${currentDir}`);
+            case `rn ${arg1} ${arg2}`:
+                await rn(currentDir, arg1, arg2);
+                printDirectory(currentDir);
                 break;
 
-            case `cp ${inputPath} ${inputPathDest}`:
-                await cp(currentDir, inputPath, inputPathDest);
-                console.log(`You are currently in ${currentDir}`);
+            case `cp ${arg1} ${arg2}`:
+                await cp(currentDir, arg1, arg2);
+                printDirectory(currentDir);
                 break;
 
-            case `mv ${inputPath} ${inputPathDest}`:
-                await mv(currentDir, inputPath, inputPathDest);
-                console.log(`You are currently in ${currentDir}`);
+            case `mv ${arg1} ${arg2}`:
+                await mv(currentDir, arg1, arg2);
+                printDirectory(currentDir);
                 break;
 
-            case `rm ${inputFileName}`:
-                await rm(currentDir, inputPath);
-                console.log(`You are currently in ${currentDir}`);
+            case `rm ${arg1}`:
+                await rm(currentDir, arg1);
+                printDirectory(currentDir);
                 break;
 
-            case `os ${inputValue}`:
+            case `os ${arg1}`:
                 switch (line.trim().split('--').pop()) {
                     case 'EOL':
                         getSystemInfo();
@@ -110,22 +107,22 @@ const start = async () => {
                         console.log(`Invalid input`);
                         break;
                 }
-                console.log(`You are currently in ${currentDir}`);
+                printDirectory(currentDir);
                 break;
 
-            case `hash ${inputPath}`:
-                await hash(currentDir, inputPath);
-                console.log(`You are currently in ${currentDir}`);
+            case `hash ${arg1}`:
+                await hash(currentDir, arg1);
+                printDirectory(currentDir);
                 break;
 
-            case `compress ${inputPath} ${inputPathDest}`:
-                await compress(currentDir, inputPath, inputPathDest);
-                console.log(`You are currently in ${currentDir}`);
+            case `compress ${arg1} ${arg2}`:
+                await compress(currentDir, arg1, arg2);
+                printDirectory(currentDir);
                 break;
 
-            case `decompress ${inputPath} ${inputPathDest}`:
-                await decompress(currentDir, inputPath, inputPathDest);
-                console.log(`You are currently in ${currentDir}`);
+            case `decompress ${arg1} ${arg2}`:
+                await decompress(currentDir, arg1, arg2);
+                printDirectory(currentDir);
                 break;
 
             case '.exit':
@@ -134,6 +131,7 @@ const start = async () => {
 
             default:
                 console.log(`Invalid input`);
+                printDirectory(currentDir);
                 break;
         }
         rl.prompt();
