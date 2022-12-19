@@ -11,6 +11,8 @@ import { rm } from './rm.js';
 import { cp } from './cp.js';
 import { getSystemInfo, getCpuSystemInfo, getHomeDir, getSystemUsername, getArchitecture } from './systemInfo.js';
 import { hash } from './hash.js';
+import { compress } from './compress.js';
+import { decompress } from './decompress.js';
 
 const getUsername = () => {
     const myArgs = Object.values(process.argv).slice(2);
@@ -107,6 +109,16 @@ const start = async () => {
 
             case `hash ${inputPath}`:
                 await hash(currentDir, inputPath);
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
+            case `compress ${inputPath} ${inputPathDest}`:
+                await compress(currentDir, inputPath, inputPathDest);
+                console.log(`You are currently in ${currentDir}`);
+                break;
+
+            case `decompress ${inputPath} ${inputPathDest}`:
+                await decompress(currentDir, inputPath, inputPathDest);
                 console.log(`You are currently in ${currentDir}`);
                 break;
 
