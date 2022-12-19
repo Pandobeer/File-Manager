@@ -1,11 +1,16 @@
 import zlib from 'node:zlib';
 import { pipeline } from 'node:stream/promises';
 import fs from 'node:fs';
+import { basename } from 'node:path';
+
 import { getAbsolutePath } from './utils/helpers.js';
 
-export const compress = async (currentDir, pathToFile, pathToCompressedFile) => {
+export const compress = async (currentDir, pathToFile, pathToDestDir) => {
+    const filename = basename(pathToFile);
+    const compressedFile = `${filename}.br`;
+
     const fileToCompressPath = getAbsolutePath(currentDir, pathToFile);
-    const fileCompressedPath = getAbsolutePath(currentDir, pathToCompressedFile);
+    const fileCompressedPath = getAbsolutePath(currentDir, pathToDestDir, compressedFile);
 
     const brotli = zlib.createBrotliCompress();
     const readStream = fs.createReadStream(fileToCompressPath);
